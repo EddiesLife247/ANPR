@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>BOLO Menu</title>
+    <link rel="stylesheet" href="style.css"> <!-- Link to your CSS -->
+</head>
+<body>
+
+    <!-- The main container that holds the BOLO table -->
+    <div class="container">
+        <button class="close-btn" id="closeBolo">X</button>
+        
+        <h2>Active BOLOs</h2>
+        
+        <!-- Table to display the BOLO information -->
+<!-- Table to display the BOLO information -->
+<div class="table-container">
+    <table id="boloTable">
+        <thead>
+            <tr>
+                <th>Plate</th>
+                <th>Officer</th>
+                <th>Reason</th>
+                <th>Expires</th>
+            </tr>
+        </thead>
+        <tbody>
+            <!-- Data will be inserted here dynamically -->
+        </tbody>
+    </table>
+</div>
+        
+        <button id="addBolo">Add BOLO</button> <!-- Optional Add BOLO button -->
+    </div>
+
+<!-- Add BOLO Form (Hidden by default) -->
+<div id="addBoloForm" style="display:none;" class="modal">
+    <h3>Add New BOLO</h3>
+    <form id="boloForm">
+        <label for="boloPlate">Plate:</label>
+        <input type="text" id="boloPlate" required><br><br>
+
+        <label for="boloReason">Reason:</label>
+        <input type="text" id="boloReason" required><br><br>
+
+        <button type="submit" id="submitBolo">Submit</button>
+        <button type="button" id="cancelBolo">Cancel</button>
+    </form>
+</div>
+
+    <script src="script.js"></script> <!-- Link to your JS -->
+</body>
+</html>
