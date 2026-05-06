@@ -435,4 +435,88 @@ RegisterNetEvent('bolo:registerChatSuggestions', function()
     })
 end)
 
+-- ✅ **BOLO Export Functions**
+if Config.ExportsEnabled then
 
+    exports('addBolo', function(plate, reason, officer, expiry)
+        if not plate or not reason then
+            return false, "Missing plate or reason"
+        end
+
+        local normalizedPlate = NormalizePlate(plate)
+        local expiryTime = expiry and (os.time() + expiry) or nil
+
+        boloVehicles[normalizedPlate] = {
+            officer = officer or "System",
+            reason = reason,
+            expiry = expiryTime,
+            temporary = expiry ~= nil
+        }
+
+        DebugPrint("[EXPORT] ✅ BOLO Added via export | Plate: " .. normalizedPlate .. " | Reason: " .. reason)
+        return true, "BOLO added for " .. normalizedPlate
+    end)
+
+    exports('removeBolo', function(plate)
+        if not plate then
+            return false, "Missing plate"
+        end
+
+        local normalizedPlate = NormalizePlate(plate)
+
+        if not boloVehicles[normalizedPlate] then
+            return false, "No BOLO found for plate: " .. normalizedPlate
+        end
+
+        boloVehicles[normalizedPlate] = nil
+        DebugPrint("[EXPORT] 🗑️ BOLO Removed via export | Plate: " .. normalizedPlate)
+        return true, "BOLO removed for " .. normalizedPlate
+    end)
+
+    exports('updateBolo', function(plate, updates)
+        if not plate or not updates then
+            return false, "Missing plate or updates"
+        end
+
+        local normalizedPlate = NormalizePlate(plate)
+
+        if not boloVehicles[normalizedPlate] then
+            return false, "No BOLO found for plate: " .. normalizedPlate
+        end
+
+        if updates.reason then
+            boloVehicles[normalizedPlate].reason = updates.reason
+        end
+        if updates.officer then
+            boloVehicles[normalizedPlate].officer = updates.officer
+        end
+        if updates.expiry then
+            boloVehicles[normalizedPlate].expiry = os.time() + updates.expiry
+            boloVehicles[normalizedPlate].temporary = true
+        end
+
+        DebugPrint("[EXPORT] 🔄 BOLO Updated via export | Plate: " .. normalizedPlate)
+        return true, "BOLO updated for " .. normalizedPlate
+    end)
+
+    exports('getBolos', function()
+        local boloList = {}
+        for plate, data in pairs(boloVehicles) do
+            table.insert(boloList, {
+                plate = plate,
+                officer = data.officer,
+                reason = data.reason,
+                expiry = data.expiry,
+                temporary = data.temporary
+            })
+        end
+        return boloList
+    end)
+
+    exports('hasBolo', function(plate)
+        if not plate then return false end
+        local normalizedPlate = NormalizePlate(plate)
+        return boloVehicles[normalizedPlate] ~= nil
+    end)
+
+end
