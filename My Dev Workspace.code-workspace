@@ -1,0 +1,17 @@
+{
+	"folders": [
+		{
+			"name": "Server",
+			"path": "../../ClashRP/Server"
+		},
+		{
+			"name": "Scripts",
+			"path": ".."
+		},
+		{
+			"name": "LiveServer-Root",
+			"path": "../../ClashRP/LiveServer-Root"
+		}
+	],
+	"settings": {}
+}
